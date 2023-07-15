@@ -1,11 +1,198 @@
 {
-    "private": true,
+    "name": "valkyrie4vscode",
+    "displayName": "Valkyrie Language Support",
+    "description": "Comprehensive language support for Valkyrie programming language, including syntax highlighting, code completion, diagnostics, and more via the Legion Language Server Protocol",
+    "version": "0.1.0",
+    "publisher": "nyar-lang",
+    "license": "MIT",
+    "icon": "images/icon.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nyar-lang/valkyrie"
+    },
+    "engines": {
+        "vscode": "^1.75.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Linters",
+        "Formatters",
+        "Debuggers"
+    ],
+    "keywords": [
+        "valkyrie",
+        "legion",
+        "language server",
+        "lsp",
+        "syntax highlighting",
+        "code completion",
+        "diagnostics",
+        "formatter"
+    ],
+    "activationEvents": [
+        "onLanguage:valkyrie",
+        "workspaceContains:**/*.vk"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "languages": [
+            {
+                "id": "valkyrie",
+                "aliases": [
+                    "Valkyrie",
+                    "valkyrie"
+                ],
+                "extensions": [
+                    ".v",
+                    ".vk",
+                    ".vx",
+                    ".valkyrie"
+                ],
+                "configuration": "./syntaxes/language-configuration.json",
+                "icon": {
+                    "light": "./images/icon.png",
+                    "dark": "./images/icon.png"
+                }
+            },
+            {
+                "id": "voml",
+                "aliases": [
+                    "VOML",
+                    "voml"
+                ],
+                "extensions": [
+                    ".voml"
+                ],
+                "configuration": "./syntaxes/language-configuration.json",
+                "icon": {
+                    "light": "./images/voml.png",
+                    "dark": "./images/voml.png"
+                }
+            },
+            {
+                "id": "voc",
+                "aliases": [
+                    "VOC",
+                    "voc"
+                ],
+                "extensions": [
+                    ".vc",
+                    ".voc"
+                ],
+                "configuration": "./syntaxes/language-configuration.json",
+                "icon": {
+                    "light": "./images/voc.png",
+                    "dark": "./images/voc.png"
+                }
+            },
+            {
+                "id": "von",
+                "aliases": [
+                    "VON",
+                    "von"
+                ],
+                "extensions": [
+                    ".von"
+                ],
+                "configuration": "./syntaxes/language-configuration.json",
+                "icon": {
+                    "light": "./images/von.png",
+                    "dark": "./images/von.png"
+                }
+            }
+        ],
+        "grammars": [
+            {
+                "language": "valkyrie",
+                "scopeName": "source.valkyrie",
+                "path": "./syntaxes/valkyrie.tmLanguage.json"
+            },
+            {
+                "language": "voml",
+                "scopeName": "source.voml",
+                "path": "./syntaxes/voml.tmLanguage.json"
+            },
+            {
+                "language": "voc",
+                "scopeName": "source.voc",
+                "path": "./syntaxes/voc.tmLanguage.json"
+            },
+            {
+                "language": "von",
+                "scopeName": "source.von",
+                "path": "./syntaxes/von.tmLanguage.json"
+            }
+        ],
+        "commands": [
+            {
+                "command": "valkyrie.restartServer",
+                "title": "Restart Language Server",
+                "category": "Valkyrie"
+            },
+            {
+                "command": "valkyrie.showAst",
+                "title": "Show AST",
+                "category": "Valkyrie"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Valkyrie",
+            "properties": {
+                "valkyrie.lsp.path": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Path to Legion LSP server binary. Leave empty to auto-detect 'legion lsp' from PATH."
+                },
+                "valkyrie.lsp.args": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Additional arguments to pass to the language server"
+                },
+                "valkyrie.lsp.trace.server": {
+                    "type": "string",
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ],
+                    "default": "off",
+                    "description": "Traces the communication between VS Code and the language server"
+                },
+                "valkyrie.format.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable code formatting"
+                },
+                "valkyrie.format.tabSize": {
+                    "type": "integer",
+                    "default": 4,
+                    "description": "The number of spaces a tab is equal to"
+                },
+                "valkyrie.format.insertSpaces": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Insert spaces when pressing Tab"
+                }
+            }
+        }
+    },
     "scripts": {
-        "doc": "cargo doc --no-deps --all-features",
-        "test": "cargo test --release",
-        "fmt": "cargo fmt --all",
-        "p": "git push && git push --tags --prune",
-        "reset": "git reset Head~ --soft",
-        "u": "cargo upgrade --workspace"
+        "vscode:prepublish": "tsc -p ./",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "lint": "biome check src",
+        "format": "biome format --write src",
+        "package": "vsce package"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@types/node": "^20.0.0",
+        "@types/vscode": "^1.75.0",
+        "typescript": "^5.4.0",
+        "@vscode/vsce": "^2.24.0"
+    },
+    "dependencies": {
+        "vscode-languageclient": "^9.0.1"
     }
 }

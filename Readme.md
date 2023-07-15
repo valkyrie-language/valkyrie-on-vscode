@@ -1,31 +1,105 @@
-Rust Template Project
-=====================
+# Valkyrie Language Support for VS Code
 
-Rust template project for monorepo
+Comprehensive language support for the Valkyrie programming language, including syntax highlighting, code completion,
+diagnostics, and more via the Legion Language Server Protocol.
 
-## Change the initial commit
+## Features
 
-```shell
-git commit --amend --message "🎂 Project initialized!" --date "2012-12-12"
+- **Syntax Highlighting**: Full syntax support for Valkyrie and related file formats
+- **Code Completion**: Intelligent code completion powered by Legion LSP
+- **Diagnostics**: Real-time error detection and warnings
+- **Code Formatting**: Built-in code formatter
+- **AST Viewer**: Inspect the abstract syntax tree of your code
+
+## Supported Languages
+
+| Language | Extensions                      | Description                          |
+|----------|---------------------------------|--------------------------------------|
+| Valkyrie | `.v`, `.vk`, `.vx`, `.valkyrie` | Main programming language            |
+| VOML     | `.voml`                         | TOML-style configuration files       |
+| VOC      | `.vc`, `.voc`                   | Vue SFC-style single file components |
+| VON      | `.von`                          | JSON5-style data files               |
+
+## Requirements
+
+- VS Code 1.75.0 or higher
+- Legion LSP server (auto-detected from PATH)
+
+## Installation
+
+### From VSIX
+
+```bash
+pnpm run package
+code --install-extension valkyrie4vscode-0.1.0.vsix
 ```
 
-## Emoji Comment
+### From Source
 
-| Emoji  | Meaning                      |  
-|--------|------------------------------|  
-| 🎂     | Project initialized!         |  
-| 🎉     | Release new version          |  
-| 🧪🔮   | Experimental code            |   
-| 🔧🐛🐞 | Bug fix                      |  
-| 🔒     | Security fix                 |  
-| 🐣🐤🐥 | Add feature                  |  
-| 📝🎀   | Documentation                |  
-| 🚀     | Performance improve!         |  
-| 🚧     | Work in progress             |  
-| 🚨     | Test coverage improve!       |  
-| 🚥     | CI improve!                  |  
-| 🔥🧨   | Remove code or files         |
-| 🧹     | Code refactor                |
-| 📈     | Add analytics or branch code |
-| 🤖     | Automation fix               |
-| 📦     | Update dependencies          |
+```bash
+git clone https://github.com/nyar-lang/valkyrie
+cd valkyrie4vscode
+pnpm install
+pnpm run compile
+```
+
+## Configuration
+
+This extension contributes the following settings:
+
+| Setting                        | Default | Description                                                  |
+|--------------------------------|---------|--------------------------------------------------------------|
+| `valkyrie.lsp.path`            | `""`    | Path to Legion LSP server binary. Leave empty to auto-detect |
+| `valkyrie.lsp.args`            | `[]`    | Additional arguments for the language server                 |
+| `valkyrie.lsp.trace.server`    | `"off"` | Trace communication between VS Code and LSP                  |
+| `valkyrie.format.enabled`      | `true`  | Enable code formatting                                       |
+| `valkyrie.format.tabSize`      | `4`     | Tab size for formatting                                      |
+| `valkyrie.format.insertSpaces` | `true`  | Insert spaces instead of tabs                                |
+
+## Commands
+
+| Command                             | Description                      |
+|-------------------------------------|----------------------------------|
+| `Valkyrie: Restart Language Server` | Restart the Legion LSP server    |
+| `Valkyrie: Show AST`                | Display the abstract syntax tree |
+
+## Development
+
+### Build
+
+```bash
+pnpm run compile
+```
+
+### Watch Mode
+
+```bash
+pnpm run watch
+```
+
+### Lint
+
+```bash
+pnpm run lint
+```
+
+### Format
+
+```bash
+pnpm run format
+```
+
+### Package
+
+```bash
+pnpm run package
+```
+
+## License
+
+MPL2.0 License - see [LICENSE](LICENSE) for details.
+
+## Links
+
+- **Repository**: https://github.com/nyar-lang/valkyrie
+- **Publisher**: nyar-lang

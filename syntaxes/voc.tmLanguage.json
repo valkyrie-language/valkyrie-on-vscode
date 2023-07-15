@@ -1,0 +1,354 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "voc",
+    "scopeName": "source.voc",
+    "fileTypes": ["voc"],
+    "patterns": [
+        {
+            "include": "#template-block"
+        },
+        {
+            "include": "#script-block"
+        },
+        {
+            "include": "#style-block"
+        },
+        {
+            "include": "#custom-block"
+        }
+    ],
+    "repository": {
+        "template-block": {
+            "patterns": [
+                {
+                    "name": "meta.block.template.voc",
+                    "begin": "(<)(template)(?=[^>]*>)(.*?)(>)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.block.voc"
+                        },
+                        "3": {
+                            "patterns": [
+                                {
+                                    "include": "#tag-attributes"
+                                }
+                            ]
+                        },
+                        "4": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    },
+                    "end": "(</)(template)\\s*(>)",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.block.voc"
+                        },
+                        "3": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#template-content"
+                        }
+                    ]
+                }
+            ]
+        },
+        "script-block": {
+            "patterns": [
+                {
+                    "name": "meta.block.script.voc",
+                    "begin": "(<)(script)(?=[^>]*>)(.*?)(>)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.block.voc"
+                        },
+                        "3": {
+                            "patterns": [
+                                {
+                                    "include": "#tag-attributes"
+                                }
+                            ]
+                        },
+                        "4": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    },
+                    "end": "(</)(script)\\s*(>)",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.block.voc"
+                        },
+                        "3": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "source.valkyrie"
+                        }
+                    ]
+                }
+            ]
+        },
+        "style-block": {
+            "patterns": [
+                {
+                    "name": "meta.block.style.voc",
+                    "begin": "(<)(style)(?=[^>]*>)(.*?)(>)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.block.voc"
+                        },
+                        "3": {
+                            "patterns": [
+                                {
+                                    "include": "#tag-attributes"
+                                }
+                            ]
+                        },
+                        "4": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    },
+                    "end": "(</)(style)\\s*(>)",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.block.voc"
+                        },
+                        "3": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "source.css"
+                        }
+                    ]
+                }
+            ]
+        },
+        "custom-block": {
+            "patterns": [
+                {
+                    "name": "meta.block.custom.voc",
+                    "begin": "(<)([\\p{L}_][\\p{L}\\p{N}_]*)(?=[^>]*>)(.*?)(>)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.block.voc"
+                        },
+                        "3": {
+                            "patterns": [
+                                {
+                                    "include": "#tag-attributes"
+                                }
+                            ]
+                        },
+                        "4": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    },
+                    "end": "(</)([\\p{L}_][\\p{L}\\p{N}_]*)\\s*(>)",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.block.voc"
+                        },
+                        "3": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#template-content"
+                        }
+                    ]
+                }
+            ]
+        },
+        "tag-attributes": {
+            "patterns": [
+                {
+                    "name": "entity.other.attribute-name.voc",
+                    "match": "\\b([\\p{L}_:][\\p{L}\\p{N}_:\\-]*)\\b"
+                },
+                {
+                    "name": "meta.attribute.binding.voc",
+                    "match": "(:)([\\p{L}_][\\p{L}\\p{N}_]*)\\s*(=)",
+                    "captures": {
+                        "1": {
+                            "name": "punctuation.definition.attribute.binding.voc"
+                        },
+                        "2": {
+                            "name": "entity.other.attribute-name.voc"
+                        },
+                        "3": {
+                            "name": "keyword.operator.assignment.voc"
+                        }
+                    }
+                },
+                {
+                    "name": "meta.attribute.directive.voc",
+                    "match": "(v-)([\\p{L}_][\\p{L}\\p{N}_]*)(?::([\\p{L}_][\\p{L}\\p{N}_]*))?",
+                    "captures": {
+                        "1": {
+                            "name": "punctuation.definition.directive.voc"
+                        },
+                        "2": {
+                            "name": "entity.other.attribute-name.directive.voc"
+                        },
+                        "3": {
+                            "name": "entity.other.attribute-name.argument.voc"
+                        }
+                    }
+                },
+                {
+                    "name": "meta.attribute.shorthand.voc",
+                    "match": "(@|#)([\\p{L}_][\\p{L}\\p{N}_]*)",
+                    "captures": {
+                        "1": {
+                            "name": "punctuation.definition.shorthand.voc"
+                        },
+                        "2": {
+                            "name": "entity.other.attribute-name.voc"
+                        }
+                    }
+                },
+                {
+                    "name": "string.quoted.double.voc",
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.voc",
+                            "match": "\\\\."
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.single.voc",
+                    "begin": "'",
+                    "end": "'",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.voc",
+                            "match": "\\\\."
+                        }
+                    ]
+                }
+            ]
+        },
+        "template-content": {
+            "patterns": [
+                {
+                    "include": "#interpolation"
+                },
+                {
+                    "include": "#html-tags"
+                },
+                {
+                    "include": "#html-comments"
+                }
+            ]
+        },
+        "interpolation": {
+            "patterns": [
+                {
+                    "name": "meta.interpolation.voc",
+                    "begin": "\\{\\{",
+                    "end": "\\}\\}",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.interpolation.begin.voc"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.interpolation.end.voc"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "source.valkyrie"
+                        }
+                    ]
+                }
+            ]
+        },
+        "html-tags": {
+            "patterns": [
+                {
+                    "name": "meta.tag.voc",
+                    "begin": "(<)([\\p{L}_][\\p{L}\\p{N}_]*)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.voc"
+                        }
+                    },
+                    "end": "(/?>)",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#tag-attributes"
+                        }
+                    ]
+                },
+                {
+                    "name": "meta.tag.closing.voc",
+                    "match": "(</)([\\p{L}_][\\p{L}\\p{N}_]*)(>)",
+                    "captures": {
+                        "1": {
+                            "name": "punctuation.definition.tag.begin.voc"
+                        },
+                        "2": {
+                            "name": "entity.name.tag.voc"
+                        },
+                        "3": {
+                            "name": "punctuation.definition.tag.end.voc"
+                        }
+                    }
+                }
+            ]
+        },
+        "html-comments": {
+            "patterns": [
+                {
+                    "name": "comment.block.html.voc",
+                    "begin": "<!--",
+                    "end": "-->"
+                }
+            ]
+        }
+    }
+}
