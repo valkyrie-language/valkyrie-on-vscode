@@ -3,6 +3,7 @@ use dioxus::{core_macro::rsx, dioxus_core::Element};
 use std::borrow::Cow;
 
 pub trait DocumentElementIcon {
+    fn get_kind_name(&self) -> &'static str;
     fn get_icon_name(&self) -> char;
     fn get_icon_color(&self) -> String {
         "black".to_string()

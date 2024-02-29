@@ -3,6 +3,10 @@ use std::borrow::Cow;
 use wit_parser::{Function, FunctionKind};
 
 impl DocumentElementIcon for FunctionKind {
+    fn get_kind_name(&self) -> &'static str {
+        "function"
+    }
+
     fn get_icon_name(&self) -> char {
         match self {
             FunctionKind::Freestanding => 'f',
@@ -14,6 +18,10 @@ impl DocumentElementIcon for FunctionKind {
 }
 
 impl DocumentElementIcon for Function {
+    fn get_kind_name(&self) -> &'static str {
+        self.kind.get_kind_name()
+    }
+
     fn get_icon_name(&self) -> char {
         self.kind.get_icon_name()
     }

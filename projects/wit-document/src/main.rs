@@ -8,15 +8,16 @@
 #![allow(unused)]
 use dioxus::prelude::*;
 use dioxus_router::prelude::Routable;
-use dioxus_fullstack::{launch, prelude::*};
-use dioxus_ssr::incremental::{DefaultRenderer, IncrementalRenderer};
+// use dioxus_fullstack::{launch, prelude::*};
+// use dioxus_ssr::incremental::{DefaultRenderer, IncrementalRenderer};
 use serde::{Deserialize, Serialize};
 use dioxus_router::prelude::Link;
+use wit_document::HttpExample;
 
 fn main() {
     dioxus_web::launch::launch_cfg(
-        Home,
-        dioxus_web::Config::default().hydrate(true),
+        HttpExample,
+        dioxus_web::Config::default().hydrate(false),
     );
 }
 
@@ -53,7 +54,7 @@ fn Home() -> Element {
     let text = use_signal(|| "...".to_string());
 
     rsx! {
-        Link { to: Route::Blog {}, "Go to blog" }
+        // Link { to: Route::Blog {}, "Go to blog" }
         div {
             h1 { "High-Five counter: {count}" }
             button { onclick: move |_| count += 1, "Up high!" }

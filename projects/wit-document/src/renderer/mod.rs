@@ -46,6 +46,7 @@ fn left_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProv
 }
 
 fn main_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProvider) -> Element {
+    let kind = item.get_kind_name();
     match item.get_name(data).as_ref() {
         "" => rsx! {},
         name => {
@@ -53,7 +54,7 @@ fn main_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProv
             let icon = item.get_icon_name();
             rsx! {
                td {
-                    class: "main-link",
+                    class: "main-link {kind}",
                     span { class: "type-icon", "{icon}" }
                     a { href: "{link}", "{name}" }
                 }

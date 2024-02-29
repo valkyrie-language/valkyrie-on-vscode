@@ -15,23 +15,42 @@ pub use crate::{
     resolver::DataProvider,
 };
 
-use crate::{renderer::render_interface, };
-use axum::{response::Html, routing::get, Router};
+use crate::renderer::render_interface;
+
 use dioxus::{dioxus_core::Mutations, prelude::*};
 use std::path::Path;
-use wit_parser::UnresolvedPackage;
+use wit_parser::{SourceMap, UnresolvedPackage};
 
-pub async fn app_endpoint() -> Html<String> {
-    let mut app = VirtualDom::new(app);
-    let mut mutations = Mutations::default();
-    app.rebuild(&mut mutations);
-    Html(dioxus_ssr::render(&app))
-}
+// use axum::{response::Html, routing::get, Router};
+// pub async fn app_endpoint() -> Html<String> {
+//     let mut app = VirtualDom::new(app);
+//     let mut mutations = Mutations::default();
+//     app.rebuild(&mut mutations);
+//     Html(dioxus_ssr::render(&app))
+// }
 
 // create a component that renders a div with the text "hello world"
-pub fn app() -> Element {
+
+#[component]
+pub fn HttpExample() -> Element {
+    let mut map = SourceMap::default();
     let here = Path::new(env!("CARGO_MANIFEST_DIR"));
-    let store = DataProvider { package: UnresolvedPackage::parse_dir(&here.join("../preview2/http")).unwrap() };
+    {
+        let file = "preview2/http/types.wit";
+        let contents = include_str!("../../preview2/http/types.wit");
+        map.push(here, contents);
+    }
+    {
+        let file = "preview2/http/proxy.wit";
+        let contents = include_str!("../../preview2/http/proxy.wit");
+        map.push(here, contents);
+    }
+    {
+        let file = "preview2/http/handler.wit";
+        let contents = include_str!("../../preview2/http/handler.wit");
+        map.push(here, contents);
+    }
+    let store = DataProvider { package: map.parse().unwrap() };
     let example = store.get_interfaces().into_iter().map(|x| render_interface(&store, x));
     rsx! {
         {example}

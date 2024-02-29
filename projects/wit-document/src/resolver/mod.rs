@@ -101,10 +101,11 @@ impl DataProvider {
         }
         resources
     }
-
+    /// Check
     pub fn has_functions<'a>(&'a self, functions: &'a IndexMap<String, Function>) -> bool {
         self.get_functions(functions).len() > 0
     }
+    /// Get functions from dict
     pub fn get_functions<'a>(&'a self, functions: &'a IndexMap<String, Function>) -> Vec<&'a Function> {
         functions.values().filter(|x| x.kind == FunctionKind::Freestanding).collect()
     }

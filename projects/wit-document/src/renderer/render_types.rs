@@ -3,6 +3,51 @@ use crate::helpers::DocumentElement;
 use std::borrow::Cow;
 
 impl DocumentElementIcon for TypeDefKind {
+    fn get_kind_name(&self) -> &'static str {
+        match self {
+            TypeDefKind::Record(_) => {"record"}
+            TypeDefKind::Resource => {
+                "resource"
+            }
+            TypeDefKind::Handle(_) => {
+                "handle"
+            }
+            TypeDefKind::Flags(_) => {
+                "flags"
+            }
+            TypeDefKind::Tuple(_) => {
+                "tuple"
+            }
+            TypeDefKind::Variant(_) => {
+                "variant"
+            }
+            TypeDefKind::Enum(_) => {
+                "enum"
+            }
+            TypeDefKind::Option(_) =>  {
+                "option"
+            }
+            TypeDefKind::Result(_) => {
+                "result"
+            }
+            TypeDefKind::List(_) => {
+                "list"
+            }
+            TypeDefKind::Future(_) =>  {
+                "future"
+            }
+            TypeDefKind::Stream(_) =>  {
+                "stream"
+            }
+            TypeDefKind::Type(_) =>  {
+                "type"
+            }
+            TypeDefKind::Unknown =>  {
+                "unknown"
+            }
+        }
+    }
+
     fn get_icon_name(&self) -> char {
         match self {
             Self::Record(_) => 'S',
@@ -24,6 +69,10 @@ impl DocumentElementIcon for TypeDefKind {
 }
 
 impl DocumentElementIcon for TypeDef {
+    fn get_kind_name(&self) -> &'static str {
+        self.kind.get_kind_name()
+    }
+
     fn get_icon_name(&self) -> char {
         self.kind.get_icon_name()
     }

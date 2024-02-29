@@ -2,6 +2,10 @@ use super::*;
 use std::borrow::Cow;
 
 impl DocumentElementIcon for Interface {
+    fn get_kind_name(&self) -> &'static str {
+        "interface"
+    }
+
     fn get_icon_name(&self) -> char {
         'I'
     }

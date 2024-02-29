@@ -14,27 +14,66 @@
     padding-left: 10px;
 }
 
-.type-icon {
-    position: relative;
-    display: inline-block;
-    padding: 5px;
-}
-
-.type-icon::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #000;
-}
+//.type-icon {
+//    position: relative;
+//    display: inline-block;
+//    padding: 5px;
+//}
+//
+//.type-icon::before {
+//    content: "";
+//    position: absolute;
+//    top: 50%;
+//    left: 50%;
+//    transform: translate(-50%, -50%);
+//    width: 20px;
+//    height: 20px;
+//    border-radius: 50%;
+//    background-color: #000;
+//}
 
 .box {
     width: 50px;
     height: 50px;
     background-color: #000;
     margin-bottom: 10px;
+}
+
+// 定义颜色变量
+$red: #ff0000;
+$blue: #0000ff;
+$darkRed: #800000;
+$darkBlue: #000080;
+
+// 定义圈的样式
+@mixin circle($color) {
+    background-color: $color;
+    color: white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+}
+
+// 根据 td.class 设置背景颜色和字体颜色
+&.type-resource {
+    span.type-icon {
+        @include circle($red);
+    }
+
+    a {
+        color: $darkRed;
+    }
+}
+
+&.type-class {
+    span.type-icon {
+        @include circle($blue);
+    }
+
+    a {
+        color: $darkBlue;
+    }
 }
