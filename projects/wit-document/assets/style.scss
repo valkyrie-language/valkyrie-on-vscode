@@ -39,41 +39,68 @@
     margin-bottom: 10px;
 }
 
-// 定义颜色变量
+// 设置变量
 $red: #ff0000;
+$dark-red: #990000;
 $blue: #0000ff;
-$darkRed: #800000;
-$darkBlue: #000080;
+$dark-blue: #000099;
 
-// 定义圈的样式
-@mixin circle($color) {
-    background-color: $color;
-    color: white;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+// 定义类型图标样式
+.type-icon {
+    display: inline-block;
+    //border: 1px solid;
     border-radius: 50%;
-    width: 24px;
-    height: 24px;
+    width: 1.5em;
+    height: 1.5em;
+    text-align: center;
+    line-height: 1.5em;
 }
 
-// 根据 td.class 设置背景颜色和字体颜色
-&.type-resource {
-    span.type-icon {
-        @include circle($red);
+// 根据 td.class 设置 span 和 a 的样式
+td {
+    &.main-link, &.left-link {
+        &.resource {
+            span {
+                color: #db6200;
+                background-color: #ffdfc5;
+            }
+        }
+
+        &.class {
+            span {
+                background-color: $blue;
+            }
+        }
     }
 
-    a {
-        color: $darkRed;
-    }
-}
+    &.main-link {
+        &.class {
+            a {
+                color: $dark-blue;
+            }
+        }
 
-&.type-class {
-    span.type-icon {
-        @include circle($blue);
+        &.resource {
+            a {
+                color: $red;
+            }
+        }
     }
 
-    a {
-        color: $darkBlue;
+
+    &.left-link {
+        &.class {
+            a {
+                color: $dark-blue;
+            }
+        }
+
+        &.resource {
+            a {
+                color: $red;
+            }
+        }
+
+
     }
 }
