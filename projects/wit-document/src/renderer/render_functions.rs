@@ -31,24 +31,4 @@ impl DocumentElement for Function {
     fn main_body(&self, data: &DataProvider) -> Element {
         todo!()
     }
-
-    fn main_card(&self, data: &DataProvider) -> Element {
-        let link = main_link(self, data);
-        let document = match &self.docs.contents {
-            None => "",
-            Some(document) => document.lines().next().unwrap_or(""),
-        };
-        rsx! {
-            tr {
-                td {
-                    class: "main-card-title",
-                    {link}
-                }
-                td {
-                    class: "main-card-detail",
-                    {document}
-                }
-            }
-        }
-    }
 }

@@ -14,9 +14,13 @@ pub trait DocumentElementIcon {
 
 #[allow(unused_variables)]
 pub trait DocumentElement {
+    fn get_introduce(&self, data: &DataProvider) -> Element {
+        None
+    }
+    fn get_details(&self, data: &DataProvider) -> Element {
+        None
+    }
     fn get_name(&self, data: &DataProvider) -> Cow<str>;
     fn get_link(&self, data: &DataProvider) -> String;
     fn main_body(&self, data: &DataProvider) -> Element;
-
-    fn main_card(&self, data: &DataProvider) -> Element;
 }

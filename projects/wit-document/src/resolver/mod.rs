@@ -46,9 +46,12 @@ impl DataProvider {
         }
         resources
     }
-    pub fn get_flags<'a>(&'a self, interface: &'a Interface) -> Vec<(&'a TypeDef, &'a Flags)> {
+    pub fn has_flags<'a>(&'a self, dict: &'a IndexMap<String, TypeId>) -> bool {
+        self.get_flags(dict).len() > 0
+    }
+    pub fn get_flags<'a>(&'a self, dict: &'a IndexMap<String, TypeId>) -> Vec<(&'a TypeDef, &'a Flags)> {
         let mut resources = vec![];
-        for ty in interface.types.values() {
+        for ty in dict.values() {
             match self.package.types.get(*ty) {
                 Some(s) => match &s.kind {
                     TypeDefKind::Flags(flags) => {
@@ -61,9 +64,13 @@ impl DataProvider {
         }
         resources
     }
-    pub fn get_enumerate<'a>(&'a self, interface: &'a Interface) -> Vec<(&'a TypeDef, &'a Enum)> {
+
+    pub fn has_enumerate<'a>(&'a self, dict: &'a IndexMap<String, TypeId>) -> bool {
+        self.get_enumerate(dict).len() > 0
+    }
+    pub fn get_enumerate<'a>(&'a self, dict: &'a IndexMap<String, TypeId>) -> Vec<(&'a TypeDef, &'a Enum)> {
         let mut resources = vec![];
-        for ty in interface.types.values() {
+        for ty in dict.values() {
             match self.package.types.get(*ty) {
                 Some(s) => match &s.kind {
                     TypeDefKind::Enum(e) => {
@@ -76,9 +83,12 @@ impl DataProvider {
         }
         resources
     }
-    pub fn get_variant<'a>(&'a self, interface: &'a Interface) -> Vec<(&'a TypeDef, &'a Variant)> {
+    pub fn has_variant<'a>(&'a self, dict: &'a IndexMap<String, TypeId>) -> bool {
+        self.get_variant(dict).len() > 0
+    }
+    pub fn get_variant<'a>(&'a self, dict: &'a IndexMap<String, TypeId>) -> Vec<(&'a TypeDef, &'a Variant)> {
         let mut resources = vec![];
-        for ty in interface.types.values() {
+        for ty in dict.values() {
             match self.package.types.get(*ty) {
                 Some(s) => match &s.kind {
                     TypeDefKind::Variant(v) => {

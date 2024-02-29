@@ -20,7 +20,4 @@ impl DocumentElement for World {
         todo!()
     }
 
-    fn main_card(&self, data: &DataProvider) -> Element {
-        todo!()
-    }
 }

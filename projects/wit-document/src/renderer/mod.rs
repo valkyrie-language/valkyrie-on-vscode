@@ -15,21 +15,20 @@ mod render_types;
 mod render_world;
 
 pub fn render_interface(data: &DataProvider, interface: &Interface) -> Element {
-    let words = data.package.worlds.iter().map(|(key, value)| make_link(value, data, "left-link"));
-    let interfaces = data.package.interfaces.iter().map(|(key, value)| make_link(value, data, "left-link"));
+    let words = data.package.worlds.iter().map(|(key, value)| left_link(value, data));
+    let interfaces = data.package.interfaces.iter().map(|(key, value)| left_link(value, data));
     let card = interface.main_body(data);
     rsx! {
         div {
             class: "container",
             div { class: "lift-list", {words}, {interfaces} }
             div { class: "left-separator" }
-            ul { class: "main-list" }
             {card}
         }
     }
 }
 
-fn make_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProvider, class: &'static str) -> Element {
+fn left_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProvider) -> Element {
     match item.get_name(data).as_ref() {
         "" => rsx! {},
         name => {
@@ -37,7 +36,7 @@ fn make_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProv
             let icon = item.get_icon_name();
             rsx! {
                li {
-                    class: class,
+                    class: "left-link",
                     span { class: "type-icon", "{icon}" }
                     a { href: "{link}", "{name}" }
                 }
@@ -45,6 +44,7 @@ fn make_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProv
         }
     }
 }
+
 fn main_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProvider) -> Element {
     match item.get_name(data).as_ref() {
         "" => rsx! {},
@@ -61,6 +61,7 @@ fn main_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProv
         }
     }
 }
+
 fn main_resources<'a>(data: &'a DataProvider, item: &'a IndexMap<String, TypeId>) -> Element {
     let title = if data.has_resources(item) {
         rsx! {
@@ -73,15 +74,83 @@ fn main_resources<'a>(data: &'a DataProvider, item: &'a IndexMap<String, TypeId>
     else {
         None
     };
-    let terms = data.get_resources(item).into_iter().map(|x| x.main_card(data));
+    let terms = data.get_resources(item).into_iter().map(|x| make_card(x, data));
     rsx! {
-        Fragment {
+        div {
             {title}
-            {terms}
+            table {
+                {terms}
+            }
+        }
+    }
+}
+fn main_flags<'a>(data: &'a DataProvider, item: &'a IndexMap<String, TypeId>) -> Element {
+    let title = if data.has_enumerate(item) {
+        rsx! {
+             h2 {
+                id: "flags",
+                "flags"
+            }
+        }
+    }
+    else {
+        None
+    };
+    let terms = data.get_enumerate(item).into_iter().map(|x| make_card(x.0, data));
+    rsx! {
+        div {
+            {title}
+            table {
+                {terms}
+            }
+        }
+    }
+}
+fn main_enumerate<'a>(data: &'a DataProvider, item: &'a IndexMap<String, TypeId>) -> Element {
+    let title = if data.has_enumerate(item) {
+        rsx! {
+             h2 {
+                id: "enumerate",
+                "Enumerate"
+            }
+        }
+    }
+    else {
+        None
+    };
+    let terms = data.get_enumerate(item).into_iter().map(|x| make_card(x.0, data));
+    rsx! {
+        div {
+            {title}
+            table {
+                {terms}
+            }
         }
     }
 }
 
+fn main_variant<'a>(data: &'a DataProvider, item: &'a IndexMap<String, TypeId>) -> Element {
+    let title = if data.has_variant(item) {
+        rsx! {
+             h2 {
+                id: "variant",
+                "Variant"
+            }
+        }
+    }
+    else {
+        None
+    };
+    let terms = data.get_variant(item).into_iter().map(|x| make_card(x.0, data));
+    rsx! {
+        div {
+            {title}
+            table {
+                {terms}
+            }
+        }
+    }
+}
 fn main_functions<'a>(data: &'a DataProvider, item: &'a IndexMap<String, Function>) -> Element {
     let title = if data.has_functions(item) {
         rsx! {
@@ -94,12 +163,30 @@ fn main_functions<'a>(data: &'a DataProvider, item: &'a IndexMap<String, Functio
     else {
         None
     };
-    let terms = data.get_functions(item).into_iter().map(|x| x.main_card(data));
+    let terms = data.get_functions(item).into_iter().map(|x| make_card(x, data));
     rsx! {
-        Fragment {
+        div {
             {title}
             table {
                 {terms}
+            }
+        }
+    }
+}
+
+fn make_card<'a, T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProvider) -> Element {
+    let link = main_link(item, data);
+    let introduce = item.get_introduce(data);
+
+    rsx! {
+        tr {
+            td {
+                class: "main-card-title",
+                {link}
+            }
+            td {
+                class: "main-card-introduce",
+                {introduce}
             }
         }
     }

@@ -16,10 +16,14 @@ wit-component = "0.201.0"
 wit-parser = "0.201.0"
 
 indexmap = "2.2.3"
-axum = "0.7.4"
+#axum = "0.7.4"
 dioxus = { version = "0.5.0-alpha.0" }
-dioxus-ssr = { version = "0.5.0-alpha.0" }
-tokio = { version = "1.15.0", features = ["full"] }
+dioxus-ssr = { version = "0.5.0-alpha.0", features = ["incremental"] }
+dioxus-web = { version = "0.5.0-alpha.0", features = ["hydrate", "hot_reload"] }
+dioxus-router = { version = "0.5.0-alpha.0" }
+dioxus-fullstack = { version = "0.5.0-alpha.0", features = [] }
+#tokio = { version = "1.15.0", features = ["full"] }
+serde = { version = "1.0.197", features = ["derive"] }
 
 [dev-dependencies]
 

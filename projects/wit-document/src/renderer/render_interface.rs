@@ -27,16 +27,18 @@ impl DocumentElement for Interface {
     fn main_body(&self, data: &DataProvider) -> Element {
         let resources = main_resources(data, &self.types);
         let functions = main_functions(data, &self.functions);
+        let flags = main_flags(data, &self.types);
+        let enumerate = main_enumerate(data, &self.types);
+        let variants = main_variant(data, &self.types);
         rsx! {
             div {
                 class: "main-card",
                 {resources}
                 {functions}
+                {flags}
+                {enumerate}
+                {variants}
             }
         }
-    }
-
-    fn main_card(&self, data: &DataProvider) -> Element {
-        todo!()
     }
 }

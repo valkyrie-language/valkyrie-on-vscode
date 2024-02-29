@@ -1,35 +1,63 @@
-use axum::{response::Html, routing::get, Router};
-use dioxus::{dioxus_core::Mutations, prelude::*};
-use std::path::Path;
-use wit_document::{renderer::render_interface, DataProvider};
-use wit_parser::UnresolvedPackage;
+//! Run with:
+//!
+//! ```sh
+//! dx build --features web --release
+//! cargo run --features server
+//! ```
 
-#[tokio::main]
-async fn main() {
-    let addr = std::net::SocketAddr::from(([127, 0, 0, 1], 3000));
-    println!("listening on http://{}", addr);
+#![allow(unused)]
+use dioxus::prelude::*;
+use dioxus_router::prelude::Routable;
+use dioxus_fullstack::{launch, prelude::*};
+use dioxus_ssr::incremental::{DefaultRenderer, IncrementalRenderer};
+use serde::{Deserialize, Serialize};
+use dioxus_router::prelude::Link;
 
-    // build our application with a single route
-    let app = Router::new().route("/", get(app_endpoint)).into_make_service();
-
-    // run our app with hyper, listening globally on port 3000
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+fn main() {
+    dioxus_web::launch::launch_cfg(
+        Home,
+        dioxus_web::Config::default().hydrate(true),
+    );
 }
 
-async fn app_endpoint() -> Html<String> {
-    let mut app = VirtualDom::new(app);
-    let mut mutations = Mutations::default();
-    app.rebuild(&mut mutations);
-    Html(dioxus_ssr::render(&app))
+#[derive(Clone, Routable, Debug, PartialEq, Serialize, Deserialize)]
+enum Route {
+    #[route("/")]
+    Home {},
+
+    #[route("/blog")]
+    Blog,
 }
 
-// create a component that renders a div with the text "hello world"
-fn app() -> Element {
-    let here = Path::new(env!("CARGO_MANIFEST_DIR"));
-    let store = DataProvider { package: UnresolvedPackage::parse_dir(&here.join("tests/preview2/cli")).unwrap() };
-    let example = store.get_interfaces().into_iter().map(|x| render_interface(&store, x));
+#[component]
+fn Blog() -> Element {
     rsx! {
-        {example}
+        Link { to: Route::Home {}, "Go to counter" }
+        table {
+            tbody {
+                for _ in 0..100 {
+                    tr {
+                        for _ in 0..100 {
+                            td { "hello world!" }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[component]
+fn Home() -> Element {
+    let mut count = use_signal(|| 0);
+    let text = use_signal(|| "...".to_string());
+
+    rsx! {
+        Link { to: Route::Blog {}, "Go to blog" }
+        div {
+            h1 { "High-Five counter: {count}" }
+            button { onclick: move |_| count += 1, "Up high!" }
+            button { onclick: move |_| count -= 1, "Down low!" }
+        }
     }
 }
