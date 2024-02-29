@@ -1,106 +1,163 @@
+// clean styles
+body {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+// header part
+article {
+    header {
+        min-height: 200px;
+    }
+}
+
+
+.bread-crumbs, .container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// main left
 .container {
     display: flex;
-    align-items: center;
+    align-items: stretch;
+
 }
 
 .lift-list {
-    flex: 1;
-    padding-right: 10px;
-    border-right: 1px solid #000;
+    //flex: 0.3;
+    min-width: 15rem;
 }
 
-.box-list {
-    flex: 1;
-    padding-left: 10px;
+.left-separator {
+    width: 1px;
+    background-color: #cecece;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
-//.type-icon {
-//    position: relative;
-//    display: inline-block;
-//    padding: 5px;
-//}
-//
-//.type-icon::before {
-//    content: "";
-//    position: absolute;
-//    top: 50%;
-//    left: 50%;
-//    transform: translate(-50%, -50%);
-//    width: 20px;
-//    height: 20px;
-//    border-radius: 50%;
-//    background-color: #000;
-//}
+.lift-list,
+.main-card {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa transparent;
 
-.box {
-    width: 50px;
-    height: 50px;
-    background-color: #000;
-    margin-bottom: 10px;
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #aaa;
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+        background-color: #666;
+    }
 }
-
-// 设置变量
-$red: #ff0000;
-$dark-red: #990000;
-$blue: #0000ff;
-$dark-blue: #000099;
 
 // 定义类型图标样式
 .type-icon {
     display: inline-block;
-    //border: 1px solid;
     border-radius: 50%;
     width: 1.5em;
     height: 1.5em;
     text-align: center;
     line-height: 1.5em;
+    margin-right: 0.5rem;
 }
 
-// 根据 td.class 设置 span 和 a 的样式
-td {
-    &.main-link, &.left-link {
-        &.resource {
-            span {
-                color: #db6200;
-                background-color: #ffdfc5;
-            }
-        }
 
-        &.class {
-            span {
-                background-color: $blue;
-            }
+.main-link, .left-link {
+    &.world {
+        span.type-icon {
+            border: 1px solid #000000;
         }
     }
 
-    &.main-link {
-        &.class {
-            a {
-                color: $dark-blue;
-            }
-        }
-
-        &.resource {
-            a {
-                color: $red;
-            }
+    &.interface {
+        span.type-icon {
+            color: #20B44B;
+            background-color: #b2ffba;
+            border: 1px dashed #20B44B;
         }
     }
 
 
-    &.left-link {
-        &.class {
-            a {
-                color: $dark-blue;
-            }
+    &.resource {
+        span.type-icon {
+            color: #db6200;
+            background-color: #ffdfc5;
+            border: 1px solid #db6200;
+        }
+    }
+
+    &.class {
+        span.type-icon {
+            color: #db6200;
+            background-color: #ffdfc5;
+            border: 1px solid #db6200;
+        }
+    }
+
+    &.function {
+        span.type-icon {
+            color: #056CF0;
+            background-color: #026BEB1A;
+            border: 1px solid #056CF0;
         }
 
-        &.resource {
-            a {
-                color: $red;
-            }
+    }
+
+    &.flags {
+        span.type-icon {
+            color: #7c00dd;
+            background-color: #dab3ff;
+            border: 1px dashed #7c00dd;
         }
+    }
+
+    &.enumerate {
+        span.type-icon {
+            color: #7c00dd;
+            background-color: #dab3ff;
+            border: 1px dashed #7c00dd;
+        }
+    }
+
+    &.variant {
+        span.type-icon {
+            color: #be0000;
+            background-color: #ffb3b3;
+            border: 1px dashed #be0000;
+        }
+    }
+
+}
+
+.main-link {
 
 
+    a {
+        color: #12124B;
+        font-weight: bold;
+    }
+}
+
+
+.left-link {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+
+    a {
+        color: #12124B;
     }
 }

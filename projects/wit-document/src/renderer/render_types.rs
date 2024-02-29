@@ -22,7 +22,7 @@ impl DocumentElementIcon for TypeDefKind {
                 "variant"
             }
             TypeDefKind::Enum(_) => {
-                "enum"
+                "enumerate"
             }
             TypeDefKind::Option(_) =>  {
                 "option"
@@ -55,7 +55,7 @@ impl DocumentElementIcon for TypeDefKind {
             Self::Handle(_) => 'T',
             Self::Flags(_) => 'F',
             Self::Tuple(_) => 'T',
-            Self::Variant(_) => 'U',
+            Self::Variant(_) => 'V',
             Self::Enum(_) => 'E',
             Self::Option(_) => 'T',
             Self::Result(_) => 'T',

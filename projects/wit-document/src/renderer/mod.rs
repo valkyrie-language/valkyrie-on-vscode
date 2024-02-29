@@ -7,7 +7,7 @@ use dioxus::{
     prelude::*,
 };
 use indexmap::IndexMap;
-use wit_parser::{Function, Interface, TypeDef, TypeDefKind, TypeId, World};
+use wit_parser::{Function, Interface, PackageId, TypeDef, TypeDefKind, TypeId, World};
 
 mod render_functions;
 mod render_interface;
@@ -18,17 +18,56 @@ pub fn render_interface(data: &DataProvider, interface: &Interface) -> Element {
     let words = data.package.worlds.iter().map(|(key, value)| left_link(value, data));
     let interfaces = data.package.interfaces.iter().map(|(key, value)| left_link(value, data));
     let card = interface.main_body(data);
+
+    let name = interface.get_name(data);
+    let version = match &interface.package {
+        Some(version) => {
+            rsx! {
+                Fragment {
+                    "@"
+                    a {
+                        href: "filesystem",
+                        "0.2.0"
+                    }
+                }
+            }
+        }
+        None => {None}
+    };
     rsx! {
-        div {
-            class: "container",
-            div { class: "lift-list", {words}, {interfaces} }
-            div { class: "left-separator" }
-            {card}
+        article {
+            header {
+                div {
+                    class: "bread-crumbs",
+                    a {
+                        href: "wasi",
+                        "wasi"
+                    }
+                    ":"
+                    a {
+                        href: "filesystem",
+                        "filesystem"
+                    }
+                    "/"
+                    a {
+                        href: "filesystem",
+                        "{name}"
+                    }
+                    {version}
+                }
+            }
+            div {
+                class: "container",
+                div { class: "lift-list", {words}, {interfaces} }
+                div { class: "left-separator" }
+                {card}
+            }
         }
     }
 }
 
 fn left_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProvider) -> Element {
+    let kind = item.get_kind_name();
     match item.get_name(data).as_ref() {
         "" => rsx! {},
         name => {
@@ -36,7 +75,7 @@ fn left_link<T: DocumentElement + DocumentElementIcon>(item: &T, data: &DataProv
             let icon = item.get_icon_name();
             rsx! {
                li {
-                    class: "left-link",
+                    class: "left-link {kind}",
                     span { class: "type-icon", "{icon}" }
                     a { href: "{link}", "{name}" }
                 }
@@ -86,18 +125,18 @@ fn main_resources<'a>(data: &'a DataProvider, item: &'a IndexMap<String, TypeId>
     }
 }
 fn main_flags<'a>(data: &'a DataProvider, item: &'a IndexMap<String, TypeId>) -> Element {
-    let title = if data.has_enumerate(item) {
+    let title = if data.has_flags(item) {
         rsx! {
              h2 {
                 id: "flags",
-                "flags"
+                "Flags"
             }
         }
     }
     else {
         None
     };
-    let terms = data.get_enumerate(item).into_iter().map(|x| make_card(x.0, data));
+    let terms = data.get_flags(item).into_iter().map(|x| make_card(x.0, data));
     rsx! {
         div {
             {title}

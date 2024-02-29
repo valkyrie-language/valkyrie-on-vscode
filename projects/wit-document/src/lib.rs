@@ -33,6 +33,13 @@ use wit_parser::{SourceMap, UnresolvedPackage};
 
 #[component]
 pub fn HttpExample() -> Element {
+    rsx! {
+        {filesystem()}
+        {https()}
+    }
+}
+
+fn https() -> Element {
     let mut map = SourceMap::default();
     let here = Path::new(env!("CARGO_MANIFEST_DIR"));
     {
@@ -48,6 +55,31 @@ pub fn HttpExample() -> Element {
     {
         let file = "preview2/http/handler.wit";
         let contents = include_str!("../../preview2/http/handler.wit");
+        map.push(here, contents);
+    }
+    let store = DataProvider { package: map.parse().unwrap() };
+    let example = store.get_interfaces().into_iter().map(|x| render_interface(&store, x));
+    rsx! {
+        {example}
+    }
+}
+
+fn filesystem() -> Element {
+    let mut map = SourceMap::default();
+    let here = Path::new(env!("CARGO_MANIFEST_DIR"));
+    {
+        let file = "preview2/filesystem/world.wit";
+        let contents = include_str!("../../preview2/filesystem/world.wit");
+        map.push(here, contents);
+    }
+    {
+        let file = "preview2/filesystem/types.wit";
+        let contents = include_str!("../../preview2/filesystem/types.wit");
+        map.push(here, contents);
+    }
+    {
+        let file = "preview2/filesystem/preopens.wit";
+        let contents = include_str!("../../preview2/filesystem/preopens.wit");
         map.push(here, contents);
     }
     let store = DataProvider { package: map.parse().unwrap() };
