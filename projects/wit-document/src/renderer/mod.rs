@@ -20,16 +20,12 @@ pub fn render_interface(data: &DataProvider, interface: &Interface) -> Element {
     let card = interface.main_body(data);
 
     let name = interface.get_name(data);
-    let version = match &interface.package {
+    let org = data.package.name.namespace.as_str();
+    let namespace = data.package.name.name.as_str();
+    let version = match data.package.name.version.as_ref() {
         Some(version) => {
             rsx! {
-                Fragment {
-                    "@"
-                    a {
-                        href: "filesystem",
-                        "0.2.0"
-                    }
-                }
+                "@{version}"
             }
         }
         None => {None}
@@ -41,12 +37,12 @@ pub fn render_interface(data: &DataProvider, interface: &Interface) -> Element {
                     class: "bread-crumbs",
                     a {
                         href: "wasi",
-                        "wasi"
+                        "{org}"
                     }
                     ":"
                     a {
                         href: "filesystem",
-                        "filesystem"
+                        "{namespace}"
                     }
                     "/"
                     a {
@@ -54,6 +50,11 @@ pub fn render_interface(data: &DataProvider, interface: &Interface) -> Element {
                         "{name}"
                     }
                     {version}
+                    ">"
+                    a {
+                        href: "function",
+                        "function"
+                    }
                 }
             }
             div {
